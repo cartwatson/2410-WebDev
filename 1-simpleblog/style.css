@@ -1,0 +1,9 @@
+a {
+    color: red;
+}
+
+a:hover {
+    color: black;
+    text-decoration: wavy;
+    text-decoration-color: black;
+}
