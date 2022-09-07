@@ -1,5 +1,5 @@
 a {
-    color: red;
+    color: black;
 }
 
 a:hover {
@@ -18,10 +18,22 @@ a.title:hover {
     color: blueviolet;
 }
 
-table-row:nth-child(even) {
+ol {
+    background-color: aqua;
+}
+
+li:nth-child(even) {
     background-color: pink;
 }
 
-table-row:nth-child(odd) {
+li:nth-child(odd) {
     background-color: plum;
+}
+
+li.navBlock {
+    background-color: aqua;
+}
+
+HTMLElements {
+    background-color: #000000;
 }
