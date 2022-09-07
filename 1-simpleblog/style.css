@@ -18,20 +18,26 @@ a.title:hover {
     color: blueviolet;
 }
 
+code {
+    font-size: 2rem;
+    text-decoration: underline;
+    text-decoration-color: aquamarine;
+}
+
 ol {
     background-color: aqua;
 }
 
-li:nth-child(even) {
+li.navblock {
+    background-color: aqua;
+}
+
+li.desc:nth-child(even) {
     background-color: pink;
 }
 
-li:nth-child(odd) {
+li.desc:nth-child(odd) {
     background-color: plum;
-}
-
-#navblock {
-    background-color: aqua;
 }
 
 .HTMLElements {
