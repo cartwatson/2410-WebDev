@@ -7,3 +7,21 @@ a:hover {
     text-decoration: wavy;
     text-decoration-color: black;
 }
+
+a.title {
+    color: black;
+    text-decoration: none;
+    font-family: monospace;
+}
+
+a.title:hover {
+    color: blueviolet;
+}
+
+table-row:nth-child(even) {
+    background-color: pink;
+}
+
+table-row:nth-child(odd) {
+    background-color: plum;
+}
