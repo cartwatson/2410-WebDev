@@ -49,6 +49,11 @@ p.content {
     margin-right: auto;
 }
 
+p.byline {
+    font-size: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
 #content {
     width: 75%;
     margin-left: auto;
