@@ -30,10 +30,30 @@ li:nth-child(odd) {
     background-color: plum;
 }
 
-li.navBlock {
+#navblock {
     background-color: aqua;
 }
 
-HTMLElements {
+.HTMLElements {
     background-color: #000000;
+}
+
+#title {
+    font-size: 4rem;
+    font-style: italic;
+}
+
+p.content {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 1.5rem;
+}
+
+img {
+    padding: 1rem;
 }
