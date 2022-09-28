@@ -1,7 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from importlib.resources import path
 import time
-from urllib.request import DataHandler
 
 
 class CS2610Assn2(BaseHTTPRequestHandler):
@@ -14,7 +12,7 @@ class CS2610Assn2(BaseHTTPRequestHandler):
             header += f"Content-type: {type_location}\n"
             header += f"Content-length: {len(data)}\n"
         else:
-            header += f"Location: {type_location}\n" # " + str(requestHandler.client_address[0]) + ":" + str(requestHandler.client_address[1]) + "/" + f"
+            header += f"Location: {type_location}\n"
         header += "\n"
         requestHandler.wfile.write(bytes(f"HTTP/1.1 {code}\n" + header, encoding="utf-8"))
         if code != "301 Moved Permanently":
@@ -31,24 +29,25 @@ class CS2610Assn2(BaseHTTPRequestHandler):
         elif self.path == "/techtips-css.html":
             self.dataHelper("text/html", "techtips-css.html", self, "200 OK")
         elif self.path == "/teapot": # ERROR 418
-            self.dataHelper("text/html", "teapot.html", self, "418 I'm a teapot")
+            self.dataHelper("text/html", "error418.html", self, "418 I'm a teapot")
         elif self.path == "/forbidden": # ERROR 403
-            self.dataHelper("text/html", "forbidden.html", self, "403 Forbidden")
+            self.dataHelper("text/html", "error403.html", self, "403 Forbidden")
         elif self.path == "/debugging":
             # create page
             page = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>Debug</title></head><body>
                 <h1>Debugging</h1><p style="white-space: pre-line;">"""
-            page += "Server Version: " + self.server_version + "\n"                                    # server version string
-            page += "Date & Time: " + time.strftime('%c') + "\n"                               # servers current date and time
-            page += "Client IP & port: " + str(self.client_address[0]) + ":" + str(self.client_address[1]) + "\n"  # client IP
-            page += "Requested Path: " + self.path + "\n"                                                     # path requested
-            page += "HTTP Requested Type: " + self.requestline + "\n"                                      # HTTP request type
-            page += "HTTP Version of Requested: " + self.request_version + "\n"                      # HTTP version of request
-            for i in self.headers:                                                # TODO: ordered list of HTTP request headers
-                pass
+            page += "Server Version: " + self.server_version + "\n"
+            page += "Date & Time: " + time.strftime('%c') + "\n"
+            page += "Client IP & port: " + str(self.client_address[0]) + ":" + str(self.client_address[1]) + "\n"
+            page += "Requested Path: " + self.path + "\n"
+            page += "HTTP Requested Type: " + self.requestline + "\n"
+            page += "HTTP Version of Requested: " + self.request_version + "\n"
+            page += "Ordered list of HTTP request headers: "
+            for i in self.headers:
+                page += str(i) + "; "
             page += """</p>\n</body>\n</html>"""
             data = bytes(page, encoding="utf-8")
-            # finish headers
+            # create header
             header = f"Server: Carter's Server\nDate: {time.strftime('%c')}\nConnection: close\nCache-Control: max-age=10\n"
             header += f"Content-type: text/html\n"
             header += f"Content-length: {len(data)}\n"
@@ -67,7 +66,6 @@ class CS2610Assn2(BaseHTTPRequestHandler):
             elif self.path == "/help":
                 location = "techtips-css.html"
             self.dataHelper(location,  "", self, "301 Moved Permanently")
-
         # IMAGES -------------------------------------------------------------------------------------------------------------
         elif self.path == "/favicon.ico":
             self.dataHelper("image/ico", "favicon.ico", self, "200 OK")
