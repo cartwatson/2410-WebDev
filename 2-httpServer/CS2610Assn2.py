@@ -5,68 +5,80 @@ from urllib.request import DataHandler
 
 
 class CS2610Assn2(BaseHTTPRequestHandler):
-    def dataHelper(self, header, type, fileName, requestHandler):
-        f = open(fileName, "rb")
-        data = f.read()
-        f.close()
-        header += f"Content-type: {type}\n"
-        header += f"Content-length: {len(data)}\n"
-        header += "\n"
-        requestHandler.wfile.write(bytes("HTTP/1.1 200 OK\n" + header, encoding="utf-8"))
-        requestHandler.wfile.write(data)
-
-    # TODO: Handle HTTP GET requests
-        # TODO: Response headers
-    def do_GET(self):
+    def dataHelper(self, type_location, fileName, requestHandler, code):
         header = f"Server: Carter's Server\nDate: {time.strftime('%c')}\nConnection: close\nCache-Control: max-age=10\n"
+        if code != "301 Moved Permanently":
+            f = open(fileName, "rb")
+            data = f.read()
+            f.close()
+            header += f"Content-type: {type_location}\n"
+            header += f"Content-length: {len(data)}\n"
+        else:
+            header += f"Location: {type_location}\n" # " + str(requestHandler.client_address[0]) + ":" + str(requestHandler.client_address[1]) + "/" + f"
+        header += "\n"
+        requestHandler.wfile.write(bytes(f"HTTP/1.1 {code}\n" + header, encoding="utf-8"))
+        if code != "301 Moved Permanently":
+            requestHandler.wfile.write(data)
+
+    def do_GET(self):
         # PAGES --------------------------------------------------------------------------------------------------------------
-        if self.path in ["/", "/index", "/index.html"]: # index
-            self.dataHelper(header, "text/html", "index.html", self)
-        elif self.path in ["/about.html", "/about"] or self.path[0:4] == "/bio":
-            self.dataHelper(header, "text/html", "about.html", self)
-        elif self.path in ["/tips", "/techtips+css.html"]:
-            self.dataHelper(header, "text/html", "techtips+css.html", self)
-        elif self.path in ["/help", "/techtips-css.html"]:
-            self.dataHelper(header, "text/html", "techtips-css.html", self)
+        if self.path == "/index.html": # index
+            self.dataHelper("text/html", "index.html", self, "200 OK")
+        elif self.path == "/about.html":
+            self.dataHelper("text/html", "about.html", self, "200 OK")
+        elif self.path == "/techtips+css.html":
+            self.dataHelper("text/html", "techtips+css.html", self, "200 OK")
+        elif self.path == "/techtips-css.html":
+            self.dataHelper("text/html", "techtips-css.html", self, "200 OK")
+        elif self.path == "/teapot": # ERROR 418
+            self.dataHelper("text/html", "teapot.html", self, "418 I'm a teapot")
+        elif self.path == "/forbidden": # ERROR 403
+            self.dataHelper("text/html", "forbidden.html", self, "403 Forbidden")
+        elif self.path == "/debugging":
+            # create page
+            page = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>Debug</title></head><body>
+                <h1>Debugging</h1><p style="white-space: pre-line;">"""
+            page += "Server Version: " + self.server_version + "\n"                                    # server version string
+            page += "Date & Time: " + time.strftime('%c') + "\n"                               # servers current date and time
+            page += "Client IP & port: " + str(self.client_address[0]) + ":" + str(self.client_address[1]) + "\n"  # client IP
+            page += "Requested Path: " + self.path + "\n"                                                     # path requested
+            page += "HTTP Requested Type: " + self.requestline + "\n"                                      # HTTP request type
+            page += "HTTP Version of Requested: " + self.request_version + "\n"                      # HTTP version of request
+            for i in self.headers:                                                # TODO: ordered list of HTTP request headers
+                pass
+            page += """</p>\n</body>\n</html>"""
+            data = bytes(page, encoding="utf-8")
+            # finish headers
+            header = f"Server: Carter's Server\nDate: {time.strftime('%c')}\nConnection: close\nCache-Control: max-age=10\n"
+            header += f"Content-type: text/html\n"
+            header += f"Content-length: {len(data)}\n"
+            header += "\n"
+            # write
+            self.wfile.write(bytes("HTTP/1.1 200 OK\n" + header, encoding="utf-8"))
+            self.wfile.write(data)
+        # 301 Redirects
+        elif self.path in ["/", "/index", "/about", "/tips", "/help"] or self.path[0:4] == "/bio":
+            if self.path in ["/", "/index"]:
+                location = "index.html"
+            elif self.path == "/about" or self.path[0:4] == "/bio":
+                location = "about.html"
+            elif self.path == "/tips":
+                location = "techtips+css.html"
+            elif self.path == "/help":
+                location = "techtips-css.html"
+            self.dataHelper(location,  "", self, "301 Moved Permanently")
+
         # IMAGES -------------------------------------------------------------------------------------------------------------
-        # elif self.path == "/favicon.ico":
-        #     f = open("favicon.ico", "rb")
-        #     data = f.read()
-        #     f.close()
-        #     header += "Content-type: image/ico\n"
-        #     header += f"Content-length: {len(data)}\n"
-        #     header += "\n"
-        #     self.wfile.write(bytes("HTTP/1.1 200 OK\n" + header, encoding="utf-8"))
-        #     self.wfile.write(data)
+        elif self.path == "/favicon.ico":
+            self.dataHelper("image/ico", "favicon.ico", self, "200 OK")
         elif self.path in ["/imgs/rubiks_before_weight_loss.jpg", "/rubiks_before_weight_loss.jpg", "/rubiks_bwl"]:
-            self.dataHelper(header, "image/jpeg", "imgs/rubiks_before_weight_loss.jpg", self)
+            self.dataHelper("image/jpeg", "imgs/rubiks_before_weight_loss.jpg", self, "200 OK")
         elif self.path in ["/imgs/rubiks_cube.jpg", "/rubiks_cube.jpg", "/rubiks_cube"]:
-            self.dataHelper(header, "image/jpeg", "imgs/rubiks_cube.jpg", self)
+            self.dataHelper("image/jpeg", "imgs/rubiks_cube.jpg", self, "200 OK")
         elif self.path in ["/imgs/rubiks_w_friend.jpg", "/rubiks_w_friend.jpg", "/rubiks_wf"]:
-            self.dataHelper(header, "image/jpeg", "imgs/rubiks_w_friend.jpg", self)
+            self.dataHelper("image/jpeg", "imgs/rubiks_w_friend.jpg", self, "200 OK")
         else: # ERROR 404 
-            self.dataHelper(header, "text/html", "error404.html", self)
-
-    # TODO: debugging
-        # following info
-        # instance variables
-        # TODO: server version string
-        # TODO: servers current date and time
-        # TODO: client IP & port number 
-        # TODO: path requested
-        # TODO: HTTP request type
-        # TODO: HTTP version of request
-        # TODO: ordered list of HTTP request headers
-    # TODO: 418 Teapot
-        # TODO: usual set of HTTP headers
-        # TODO: HTML document both short and stout
-        # TODO: link back to main
-    # TODO: 403 forbidden
-        # TODO: tell user they are forbidden
-        # TODO: link back to main -------- not required
-
-    pass
-
+            self.dataHelper("text/html", "error404.html", self, "404 Page Not Found")
 
 if __name__ == '__main__':
     server_address = ('localhost', 8000)
