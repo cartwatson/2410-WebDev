@@ -40,7 +40,23 @@
             Pseudocode that captures how each function works.
             Explain what happens in the face of good and bad input.
             Write a few specific examples that occurred to you. -->
-            <P></P>
+            <h5>CS2610Assn2.py will contain the following methods: dataHelper, do_GET</h5>
+            <h4>dataHelper(self, requestHandler, type_location, fileName, code)</h4>
+            <P>It will take in data and handle the writing to the server</P>
+            <P>requestHandler will be a CS2610Assn2 obj</P>
+            <P>code is the error/success code that is included in the HTTP header</P>
+            <p>type_location will be the location if the code is 301 Moved Permanently</p>
+            <P>type_location will be the type if the code is not 301 Moved Permanently</P>
+            <p>filename will be a file name if code is 200 OK, otherwise it is unused</p>
+            <h4>do_get(self)</h4>
+            <p>do_get overrides the default function from BaseHTTPRequestHandler</p>
+            <p>it returns nothing and has no parameters besides self</p>
+            <P>it will handle GET requests</P>
+            <h4>Good and bad input</h4>
+            <p>if the user tries to go to a file that doesn't exist the program will give an error 404 page not found</p>
+            <p>if the user tries to go to the forbidden page it will give an error 403 forbidden</p>
+            <p>if the user tries to go to the teapot page it will give an error 418 teapot</p>
+            <p>all good input should be handled</p>
         </div>
         <div style="background-color: lightcyan">
             <h2>Implementation</h2>
@@ -53,7 +69,26 @@
             Include a description of what happened for each test case.
             For any bugs discovered, describe their cause and remedy.
             Write your test cases in plain language such that a non-coder could run them and replicate your experience. -->
-            <P></p>
+            <P>the following pages should be attempted to be visited</p>
+                <ul>
+                    <li>/</li>
+                    <li>/index</li>
+                    <li>/index.html</li>
+                    <li>/bio</li>
+                    <li>/bioasdf</li>
+                    <li>/about</li>
+                    <li>/about.html</li>
+                    <li>/tips</li>
+                    <li>/techtips+css</li>
+                    <li>/techtips+css.html</li>
+                    <li>/help</li>
+                    <li>/techtips-css</li>
+                    <li>/techtips-css.html</li>
+                    <li>/forbidden</li>
+                    <li>/teapot</li>
+                    <li>/asdfdhafkjhdalkfjh</li>
+                </ul>
+            <p>Attempting to visit these pages will bring a user to every page available</p>
         </div>
         <div style="background-color: lightgreen">
             <h2>Deployment</h2>
@@ -74,7 +109,9 @@
             your computer’s hardware?
             the operating system?
             to the next version of Python? -->
-            <P></P>
+            <P>The method dataHelper could be cleaned up to not user the same variable for two purposes</P>
+            <P>The documentation should be complete and file should be readable without comments but some are included for readability</P>
+            <p>This server should work on at minimum python versions >=3.10</p>
         </div>
     </body>
 </html>
