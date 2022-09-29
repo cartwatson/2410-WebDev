@@ -1,4 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import mimetypes
 import os
 import time
 
@@ -6,15 +7,15 @@ import time
 class CS2610Assn2(BaseHTTPRequestHandler):
     def dataHelper(self, type_location, fileName, requestHandler, code):
         header = f"Server: Carter's Server\nDate: {time.strftime('%c')}\nConnection: close\nCache-Control: max-age=10\n"
-        if code != "301 Moved Permanently":
-            if os.path.isfile(fileName):
-                f = open(fileName, "rb")
-                data = f.read()
-                f.close()
-                header += f"Content-type: {type_location}\n"
-                header += f"Content-length: {len(data)}\n"
-            else:
-                return
+        if code == "200 OK":
+            f = open(fileName, "rb")
+            data = f.read()
+            f.close()
+            header += f"Content-type: {type_location}\n"
+            header += f"Content-length: {len(data)}\n"
+        elif code != "301 Moved Permanently":
+            header += f"Content-type: {type_location}\n"
+            header += f"Content-length: {len(data)}\n"
         else:
             header += f"Location: {type_location}\n"
         header += "\n"
@@ -24,17 +25,21 @@ class CS2610Assn2(BaseHTTPRequestHandler):
 
     def do_GET(self):
         # pages
-        if self.path == "/index.html":
-            self.dataHelper("text/html", "index.html", self, "200 OK")
-        elif self.path == "/about.html":
-            self.dataHelper("text/html", "about.html", self, "200 OK")
-        elif self.path == "/techtips+css.html":
-            self.dataHelper("text/html", "techtips+css.html", self, "200 OK")
-        elif self.path == "/techtips-css.html":
-            self.dataHelper("text/html", "techtips-css.html", self, "200 OK")
-        elif self.path == "/style.css":
-            self.dataHelper("text/css", "style.css", self, "200 OK")
-        elif self.path == "/debugging":
+        if os.path.isfile(self.path[1:]):
+            self.dataHelper(mimetypes.guess_type(self.path[1:]), self.path[1:], self, "200 OK")
+        # 301 Redirects
+        elif self.path in ["/", "/index", "/about", "/techtips+css", "/tips", "/techtips-css", "/help"] or self.path[0:4] == "/bio":
+            if self.path in ["/", "/index"]:
+                location = "index.html"
+            elif self.path == "/about" or self.path[0:4] == "/bio":
+                location = "about.html"
+            elif self.path in ["/techtips+css", "/tips"]:
+                location = "techtips+css.html"
+            elif self.path in ["/techtips-css", "/help"]:
+                location = "techtips-css.html"
+            self.dataHelper(location,  "", self, "301 Moved Permanently")
+        # errors
+        elif self.path == "/debugging": # debug page
             # create page
             page = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>Debug</title></head><body>
                 <h1>Debugging</h1><p style="white-space: pre-line;">"""
@@ -56,27 +61,6 @@ class CS2610Assn2(BaseHTTPRequestHandler):
             # write
             self.wfile.write(bytes("HTTP/1.1 200 OK\n" + header, encoding="utf-8"))
             self.wfile.write(data)
-        # 301 Redirects
-        elif self.path in ["/", "/index", "/about", "/tips", "/help"] or self.path[0:4] == "/bio":
-            if self.path in ["/", "/index"]:
-                location = "index.html"
-            elif self.path == "/about" or self.path[0:4] == "/bio":
-                location = "about.html"
-            elif self.path == "/tips":
-                location = "techtips+css.html"
-            elif self.path == "/help":
-                location = "techtips-css.html"
-            self.dataHelper(location,  "", self, "301 Moved Permanently")
-        # images/icons
-        elif self.path == "/favicon.ico":
-            self.dataHelper("image/x-icon", "favicon.ico", self, "200 OK")
-        elif self.path in ["/imgs/rubiks_before_weight_loss.jpg", "/rubiks_before_weight_loss.jpg", "/rubiks_bwl"]:
-            self.dataHelper("image/jpeg", "imgs/rubiks_before_weight_loss.jpg", self, "200 OK")
-        elif self.path in ["/imgs/rubiks_cube.jpg", "/rubiks_cube.jpg", "/rubiks_cube"]:
-            self.dataHelper("image/jpeg", "imgs/rubiks_cube.jpg", self, "200 OK")
-        elif self.path in ["/imgs/rubiks_w_friend.jpg", "/rubiks_w_friend.jpg", "/rubiks_wf"]:
-            self.dataHelper("image/jpeg", "imgs/rubiks_w_friend.jpg", self, "200 OK")
-        # errors
         elif self.path == "/teapot": # ERROR 418
             page = """<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>418 teapot</title></head><body>
                 <h1>Error 418, I'm a teapot</h1><p>This page is short and stout.</p><a href="/">Go to main page</a></body></html>"""
