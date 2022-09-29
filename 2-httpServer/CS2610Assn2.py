@@ -1,4 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import os
 import time
 
 
@@ -6,11 +7,14 @@ class CS2610Assn2(BaseHTTPRequestHandler):
     def dataHelper(self, type_location, fileName, requestHandler, code):
         header = f"Server: Carter's Server\nDate: {time.strftime('%c')}\nConnection: close\nCache-Control: max-age=10\n"
         if code != "301 Moved Permanently":
-            f = open(fileName, "rb")
-            data = f.read()
-            f.close()
-            header += f"Content-type: {type_location}\n"
-            header += f"Content-length: {len(data)}\n"
+            if os.path.isfile(fileName):
+                f = open(fileName, "rb")
+                data = f.read()
+                f.close()
+                header += f"Content-type: {type_location}\n"
+                header += f"Content-length: {len(data)}\n"
+            else:
+                return
         else:
             header += f"Location: {type_location}\n"
         header += "\n"
@@ -19,7 +23,7 @@ class CS2610Assn2(BaseHTTPRequestHandler):
             requestHandler.wfile.write(data)
 
     def do_GET(self):
-        # PAGES --------------------------------------------------------------------------------------------------------------
+        # pages
         if self.path == "/index.html": # index
             self.dataHelper("text/html", "index.html", self, "200 OK")
         elif self.path == "/about.html":
@@ -28,6 +32,8 @@ class CS2610Assn2(BaseHTTPRequestHandler):
             self.dataHelper("text/html", "techtips+css.html", self, "200 OK")
         elif self.path == "/techtips-css.html":
             self.dataHelper("text/html", "techtips-css.html", self, "200 OK")
+        elif self.path == "/style.css":
+            self.dataHelper("text/css", "style.css", self, "200 OK")
         elif self.path == "/teapot": # ERROR 418
             self.dataHelper("text/html", "error418.html", self, "418 I'm a teapot")
         elif self.path == "/forbidden": # ERROR 403
@@ -66,9 +72,9 @@ class CS2610Assn2(BaseHTTPRequestHandler):
             elif self.path == "/help":
                 location = "techtips-css.html"
             self.dataHelper(location,  "", self, "301 Moved Permanently")
-        # IMAGES -------------------------------------------------------------------------------------------------------------
+        # images/icons
         elif self.path == "/favicon.ico":
-            self.dataHelper("image/ico", "favicon.ico", self, "200 OK")
+            self.dataHelper("image/x-icon", "favicon.ico", self, "200 OK")
         elif self.path in ["/imgs/rubiks_before_weight_loss.jpg", "/rubiks_before_weight_loss.jpg", "/rubiks_bwl"]:
             self.dataHelper("image/jpeg", "imgs/rubiks_before_weight_loss.jpg", self, "200 OK")
         elif self.path in ["/imgs/rubiks_cube.jpg", "/rubiks_cube.jpg", "/rubiks_cube"]:
@@ -77,6 +83,7 @@ class CS2610Assn2(BaseHTTPRequestHandler):
             self.dataHelper("image/jpeg", "imgs/rubiks_w_friend.jpg", self, "200 OK")
         else: # ERROR 404 
             self.dataHelper("text/html", "error404.html", self, "404 Page Not Found")
+
 
 if __name__ == '__main__':
     server_address = ('localhost', 8000)
