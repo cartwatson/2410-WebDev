@@ -5,7 +5,10 @@
     <ul>
         {% for post in blog_list %}
             <li>
+                <!-- display title -->
+                <h2>{{ blog.title }}</h2>
                 <!-- truncate posts to first 100 words -->
+                <P>{{ blog.content|truncatewords:100 }}</P>
                 <!-- display # of comments -->
             </li>
         {% endfor %}

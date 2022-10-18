@@ -9,7 +9,7 @@ class blog(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     content = models.TextField()
-    posted = models.DateTimeField()
+    posted = models.DateTimeField('date published')
     def __str__(self):
         return self.content
     def get_title(self):
@@ -27,7 +27,7 @@ class comment(models.Model):
     commenter = models.CharField(max_length=100)
     email = models.EmailField()
     content = models.TextField()
-    posted = models.DateTimeField()
+    posted = models.DateTimeField('date published')
     def __str__(self):
         return self.content
     def get_blog(self):

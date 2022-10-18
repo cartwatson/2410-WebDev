@@ -2,12 +2,15 @@
 <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
 
 {% if latest_blog_list %} <!-- 3 most recent blog posts shown -->
-
     <ul>
         {% for post in latest_blog_list %}
             <li>
+                <!-- display title -->
+                <h2>{{ blog.title }}</h2>
                 <!-- truncate posts to first 100 words -->
+                <P>{{ blog.content|truncatewords:100 }}</P>
                 <!-- display # of comments -->
+
             </li>
         {% endfor %}
     </ul>
