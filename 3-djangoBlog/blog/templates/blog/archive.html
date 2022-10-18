@@ -1,0 +1,15 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
+
+{% if blog_list %} <!-- all blog posts displayed newest first -->
+    <ul>
+        {% for post in blog_list %}
+            <li>
+                <!-- truncate posts to first 100 words -->
+                <!-- display # of comments -->
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No blog posts available.</p>
+{% endif %}

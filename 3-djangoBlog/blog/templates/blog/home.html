@@ -1,0 +1,16 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
+
+{% if latest_blog_list %} <!-- 3 most recent blog posts shown -->
+
+    <ul>
+        {% for post in latest_blog_list %}
+            <li>
+                <!-- truncate posts to first 100 words -->
+                <!-- display # of comments -->
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No blog posts available.</p>
+{% endif %}

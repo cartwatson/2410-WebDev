@@ -4,7 +4,22 @@
     Describe what a good solution looks like.
     List what you already know how to do.
     Point out any challenges that you can foresee. -->
-    <P></P>
+    <P>Templates must include a dynamic element</P>
+    <p>Not required to support /teapot, /forbidden, /debugging, or /bio* -> /about.html</p>
+    <p>Create two models with at least the following fields</p>
+    <P>Blog Class: title - CharField, author - CharField, content - TextField, posted - DateTimeField</P>
+    <P>Comments Class: blog - CharField, commenter - CharField, email - EmailField, content - TextField, posted - DateTimeField</P>
+    <P>Create the following dynamic pages:</P>
+    <p>Blog Home: a list view which displays the 3 most recent blogs, newest first.</p>
+    <p>Blog archive: a list view which lists all blogs, newest first.</p>
+    <p>Blog entry, a detail view which displays: An entire blog post, all comments for that blog displayed from newest to oldest, an “Add Comment” form which posts a new comment and redirects the user to back to the same Blog entry</p>
+    <P>Create a data migration to populate the database with dummy blogs and comments.</P>
+    <P>Migration must do the following: </P>
+    <P>Create at least 4 blog entries so that graders can easily verify that the Blog home and Blog archive pages operate correctly.  The content in the blogs doesn't matter to me so long as they contain more than 100 words so that we may verify that you trimmed them down on the blog home and archive pages.</P>
+    <P>Each blog entry has an arbitrary title, author and posted date.</P>
+    <P>Each blog's content is arbitrary; they can all be identical.</P>
+    <P>Create at least 4 comments with the following requirements: </P>
+    <P>Create an arbitrary email address, commenter name and posted date and fill each comment with arbitrary text; they can all be identical.</P>
 
 <h1>System Analysis</h1>
     <!-- List all of the data that is used by the program, making note of where it comes from.
