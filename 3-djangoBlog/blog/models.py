@@ -13,8 +13,10 @@ class blog(models.Model):
         return self.content
     def get_comments(self):
         commentList = []
-        c = comment.objects
-        commentList.append(c.get(pk = self.id))
+        comments = comment.objects.order_by('-posted')
+        for i in comments:
+            if i.blog.id == self.id:
+                commentList.append(i)
         return commentList
     def get_comment_count(self):
         return str(len(self.get_comments()))
