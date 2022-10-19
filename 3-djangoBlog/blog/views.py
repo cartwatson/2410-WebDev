@@ -6,7 +6,6 @@ from .models import blog, comment
 
 # ---- VIEWS ----
 # -- STATIC --
-# TODO: STATIC HTML TO TEMPLATE W/ DYNAMIC PIECE
 # ABOUT
 def about(request):
     ip = request.META['REMOTE_ADDR']
@@ -26,19 +25,25 @@ def techtips_plus_css(request):
 # -- DYNAMIC --
 # HOME
 def index(request):
+    ip = request.META['REMOTE_ADDR']
     latest_blog_list = blog.objects.order_by('-posted')[:3]
-    context = {'latest_blog_list' : latest_blog_list}
+    context = {'latest_blog_list' : latest_blog_list, "ip" : ip}
     return render(request, 'blog/home.html', context)
 
 # ARCHIVE
 def archive(request):
+    ip = request.META['REMOTE_ADDR']
     blog_list = blog.objects.order_by('-posted')
-    context = {'blog_list' : blog_list}
+    context = {'blog_list' : blog_list, "ip" : ip}
     return render(request, 'blog/archive.html', context)
 
 # SINGLE BLOG ENTRY 
-def blog_post(request, titleOfPost):
-    post = get_object_or_404(blog, title=titleOfPost)
-    comments = comments.objects.order_by('-posted')
-    context = {'post' : post, 'comments' : comments}
+def blog_post(request, blog_id):
+    ip = request.META['REMOTE_ADDR']
+    post = get_object_or_404(blog, pk=blog_id)
+    try:
+        comments = post.get_comments()
+    except:
+        comments = None
+    context = {'blog' : post, 'comments' : comments, "ip" : ip}
     return render(request, 'blog/entry.html', context)
