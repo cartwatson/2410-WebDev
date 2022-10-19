@@ -6,11 +6,11 @@
         {% for post in latest_blog_list %}
             <li>
                 <!-- display title -->
-                <h2>{{ blog.title }}</h2>
+                <h2>Title: {{ post.title }}</h2>
                 <!-- truncate posts to first 100 words -->
-                <P>{{ blog.content|truncatewords:100 }}</P>
+                <P>Sneak Peak: {{ post.content|truncatewords:100 }}</P>
                 <!-- display # of comments -->
-
+                <p>Number of comments: {{ post.get_comment_count }}</p>
             </li>
         {% endfor %}
     </ul>

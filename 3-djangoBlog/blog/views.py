@@ -39,4 +39,6 @@ def archive(request):
 # SINGLE BLOG ENTRY 
 def blog_post(request, titleOfPost):
     post = get_object_or_404(blog, title=titleOfPost)
-    return render(request, 'blog/entry.html')
+    comments = comments.objects.order_by('-posted')
+    context = {'post' : post, 'comments' : comments}
+    return render(request, 'blog/entry.html', context)

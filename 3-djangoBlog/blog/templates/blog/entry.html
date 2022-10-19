@@ -1,8 +1,14 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
 
+<h1>{{ post.title }}</h1>
 <!-- display full article -->
+<P>{{ post.content }}</P>
 <!-- display comments newest to oldest -->
+{% for comment in comments %}
+    <h3>{{ comment }}</h3>    
+<P></P>
+{% endfor %}
 <!-- add comment HTML form -->
 <!-- may post name, email, comment; recored date/time -->
 <!-- redirects back to blog entry after making post request -->

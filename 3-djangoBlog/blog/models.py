@@ -3,7 +3,6 @@ from turtle import title
 from unittest.util import _MAX_LENGTH
 from django.db import models
 
-# TODO: MAKE MODELS
 # BLOG
 class blog(models.Model):
     title = models.CharField(max_length=200)
@@ -12,31 +11,20 @@ class blog(models.Model):
     posted = models.DateTimeField('date published')
     def __str__(self):
         return self.content
-    def get_title(self):
-        return self.title
-    def get_author(self):
-        return self.author
-    def get_content(self):
-        return self.content
-    def get_posted(self):
-        return self.posted
+    def get_comments(self):
+        commentList = []
+        c = comment.objects
+        commentList.append(c.get(pk = self.id))
+        return commentList
+    def get_comment_count(self):
+        return str(len(self.get_comments()))
 
 # COMMENT
 class comment(models.Model):
-    blog = models.ForeignKey('blog', on_delete=models.CASCADE) # NEEDS TO AND ON_DELETE
+    blog = models.ForeignKey('blog', on_delete=models.CASCADE)
     commenter = models.CharField(max_length=100)
     email = models.EmailField()
     content = models.TextField()
     posted = models.DateTimeField('date published')
     def __str__(self):
         return self.content
-    def get_blog(self):
-        return self.blog
-    def get_commenter(self):
-        return self.commenter
-    def get_email(self):
-        return self.email
-    def get_content(self):
-        return self.content
-    def get_posted(self):
-        return self.posted
