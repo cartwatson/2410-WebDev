@@ -102,27 +102,12 @@ function result(operandOne, operandTwo, op, color) {
         // compute result - parse operator
         var result;
         switch (op) {
-            case '+':
-                result = parseFloat(operandOne) + parseFloat(operandTwo);
-                break;
-            case '-':
-                result = parseFloat(operandOne) - parseFloat(operandTwo);
-                break;
-            case '/':
-                result = parseFloat(operandOne) / parseFloat(operandTwo);
-                break;
-            case '*':
-                result = parseFloat(operandOne) * parseFloat(operandTwo);
-                break;
-            case '%':
-                result = parseFloat(operandOne) % parseFloat(operandTwo);
-                break;
-            case '**':
-                result = parseFloat(operandOne) ** parseFloat(operandTwo);
-                break;
-            default:
-                result = 0;
-                console.log("error");
+            case '+': result = parseFloat(operandOne) + parseFloat(operandTwo); break;
+            case '-': result = parseFloat(operandOne) - parseFloat(operandTwo); break;
+            case '/': result = parseFloat(operandOne) / parseFloat(operandTwo); break;
+            case '*': result = parseFloat(operandOne) * parseFloat(operandTwo); break;
+            case '%': result = parseFloat(operandOne) % parseFloat(operandTwo); break;
+            case '**': result = parseFloat(operandOne) ** parseFloat(operandTwo); break;
           }
         // print result
         content = document.createTextNode(operandOne + " " + op + " " + operandTwo + " = " + result);
