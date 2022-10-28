@@ -64,7 +64,6 @@ const lowerDiv = document.createElement('div');
 // enter button ---------------------------------------------------------------------------------------------
 const enter = document.createElement('button');
 enter.innerHTML = "Compute";
-var lastDiv = null;
 enter.onclick = function() {result(operandOne.value, operandTwo.value, op.value, colorInput.value)};
 p3.appendChild(enter);
 p3.style.textAlign = "center";
@@ -132,12 +131,8 @@ function result(operandOne, operandTwo, op, color) {
     newDiv.style.textAlign = "Center";
 
     // delete onclick
-    newDiv.onclick = function() {
-        this.remove();
-    };
-
+    newDiv.onclick = function() {this.remove();};
 
     // above existing results
-    lowerDiv.insertBefore(newDiv, lastDiv);
-    lastDiv = newDiv;    
+    lowerDiv.insertBefore(newDiv, lowerDiv.firstChild);
 }
