@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+        <title>Home</title>
+    </head>
+    <body>
+        <h2>Worth Your Weight In Gold</h2>
+        <P>INSTRUCTIONS LATER</P>
+        <input type="number">
+        <select>
+            <option>U.S. Ton</option>
+            <option>Gram</option>
+            <option>Troy Ounce</option>
+            <option>Kilogram</option>
+            <option>Imperial Pound</option>
+            <option>Ounce</option>
+        </select>
+        <script src="script.js"></script>
+        <!-- Define the onlick function -->
+            <!-- Button activates callback function -->
+                <!-- reads users weight -->
+                    <!-- validates that input is numeric -->
+                        <!-- if not numeric: no fetch call -->
+                        <!-- else: fetch call unitconv -->
+                            <!-- convert weight into t_oz -->
+                            <!-- extract weight from JSON -->
+                            <!-- multiply weight in t_oz by price of gold -->
+                <!-- create new div beneath input section -->
+                    <!-- include time stamp -->
+                    <!-- insert new divs into DOM so newer ones are first -->
+                    <!-- if fetch() fails: display timestamped error message -->
+        <button onclick="">Convert</button>
+        <!-- May be easier to use JS here -->
+        <!-- Handle the 3 cases associated with gold prices -->
+            <!-- Request in process: display "Please Wait" -->
+            <!-- Request successful: display gold price -->
+            <!-- Request unsuccessful: display an error message -->
+        <p></p>
+    </body>
+</html>
+
+<!-- TODO: auto query NASDAQ -->
+    <!-- async GET request using fetch() -->
+        <!-- request returns JSON format-->
+            <!-- must include API key, clause with limits amount of data returned, and anything else you want  -->
+        <!-- extract price in USD/t_oz -->
+            <!-- store in global variable -->
+        
