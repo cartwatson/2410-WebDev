@@ -6,6 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static 'gold/style.css' %}">
+        <script src="{% static 'gold/newDiv.js' %}"></script>
         <title>Home</title>
         <!-- TODO: auto query NASDAQ -->
             <!-- async GET request using fetch() -->
@@ -32,7 +33,7 @@
                 <!-- TODO: make this a real callback function -->
                 <button onclick="callback(weight.value, unit.value)">Convert</button>
             </span>
-        </div> <!-- main -->
+        </div> <!-- upperDiv -->
         <div id="lowerDiv"></div>
         <script src="{% static 'gold/script.js' %}"></script>
     </body>
