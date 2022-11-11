@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
-# HOME
+app_name = 'gold'
 def index(request):
     context = {}
     return render(request, 'gold/index.html', context)
