@@ -1,10 +1,22 @@
 // get necessary elements
 const lowerDiv = document.getElementById("lowerDiv");
 
+// url
+let protocol = window.location.protocol;
+let hostname = window.location.hostname;
+let port = window.location.port;
+
 // Generate new div
-function callback(weight, unit) {
+function callback() {
     // create new div
     const newDiv = document.createElement('div');
+    // create url
+    var value = document.getElementById("unit").value;
+    var myArray = value.split("(");
+    myArray = myArray[1].split(")");
+    unit = myArray[0];
+    var weight = document.getElementById("weight").value;
+    var url2 = `${protocol}//${hostname}:${port}/unitconv/convert?from=${unit}&to=t_oz&value=${weight}`
     // add timestamp
     const newSpan = document.createElement('span')
     const event = new Date();
@@ -26,31 +38,30 @@ function callback(weight, unit) {
         } else { // didn't select a weight and/or unit
             content = document.createTextNode("Error! Invalid weight or unit!");
         }
+        newDiv.appendChild(content);
     } else {
         // use selected color
         newDiv.style.backgroundColor = "gray";
         // compute price - parse unit
         var weigthInTOZ;
-        var conversionFactor;
-        switch (unit) {
-            // make request to unitconv for conversion factor 
-            case "U.S. Ton (T)":        conversionFactor ; break;
-            case "Gram (g)":            conversionFactor ; break;
-            case "Troy Ounce (t_oz)":   conversionFactor = 1; break;
-            case "Kilogram (kg)":       conversionFactor ; break;
-            case "Imperial Pound (lb)": conversionFactor ; break;
-            case "Ounce (oz)":          conversionFactor ; break;
+        fetch(url2)
+            .then( response => response.json())
+            .then( json => {
+                if (json.error) {
+                    content = document.createTextNode("Error! Invalid weight or unit!");
+                    newDiv.appendChild(content);
+                } else {
+                    weigthInTOZ = `${json.value}`;
+                    // calculate value
+                    value = weigthInTOZ * price;
+                    // print result
+                    content = document.createTextNode("Your weight of " + weight + " " + unit + " is " + weigthInTOZ + " Troy Ounces, and is worth $" + value + " USD with the current gold price.");
+                    newDiv.appendChild(content);
+                }
+            })
         }
-        // TODO: handle case of failed fetch =========================================================================
-        // get weight in T_Oz 
-        weigthInTOZ = weight * conversionFactor
-        // calculate value
-        value = weigthInTOZ * price;
-        // print result
-        content = document.createTextNode("Your weight of " + weight + " " + unit + " is " + weigthInTOZ
-            + " Troy Ounces, and is worth $" + value + " USD with the current gold price.");
-    }
-    newDiv.appendChild(content);
+        
+    // newDiv.appendChild(content);
     newDiv.style.textAlign = "Center";
 
     // onclick delete 
