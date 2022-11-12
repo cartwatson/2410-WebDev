@@ -9,32 +9,32 @@ def populate_db(appreg, ed):
     USTon = unit(
         name='U.S. Ton',
         abbreviation='T',
-        conversionFactor='0.0005'
+        conversionFactor='0.000034286'
     )
     Gram = unit(
         name='Gram',
         abbreviation='g',
-        conversionFactor='453.592'
+        conversionFactor='31.1035'
     )
     TroyOunce = unit(
         name='Troy Ounce',
         abbreviation='t_oz',
-        conversionFactor='14.5833'
+        conversionFactor='1'
     )
     Kilogram = unit(
         name='Kilogram',
         abbreviation='kg',
-        conversionFactor='0.453592'
+        conversionFactor='0.0311035'
     )
     ImperialPound = unit(
         name='Imperial Pound',
         abbreviation='lb',
-        conversionFactor='1'
+        conversionFactor='0.0685714'
     )
     Ounce = unit(
         name='Ounce',
         abbreviation='oz',
-        conversionFactor='16'
+        conversionFactor='1.09714'
     )
     # populate database
     USTon.save()

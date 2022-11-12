@@ -1,13 +1,18 @@
-// grab div block
-const upperDiv = document.getElementById("upperDiv");
+// // get necessary elements
+// const upperDiv = document.getElementById("upperDiv");
 
-// Add price element to main
-const priceBlock = document.createElement('p');
-// Handle the 3 cases associated with gold prices
-//             Request in process: display "Please Wait"
-//             Request successful: display gold price
-//             Request unsuccessful: display an error message
-const priceText = document.createTextNode("TESTING");
-priceBlock.style.textAlign = "center";
-priceBlock.appendChild(priceText);
-upperDiv.appendChild(priceBlock);
+// // Add price element to main
+// const priceBlock = document.createElement('p');
+// var priceText;
+// // test for various states of retrieval of 'price'
+// if (price === "") { // price not yet retrieved
+//     priceText = document.createTextNode("Please wait...");
+// } else if (price === "000") { // error in getting price // TODO: fix conditional
+//     priceText = document.createTextNode("Error in getting price, try again later.");
+// } else { // gold price found
+//     priceText = document.createTextNode("Price retrieved");
+// }
+
+// priceBlock.style.textAlign = "center";
+// priceBlock.appendChild(priceText);
+// upperDiv.appendChild(priceBlock);

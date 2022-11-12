@@ -6,14 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static 'gold/style.css' %}">
-        <script src="{% static 'gold/newDiv.js' %}"></script>
         <title>Home</title>
-        <!-- TODO: auto query NASDAQ -->
-            <!-- async GET request using fetch() -->
-                <!-- request returns JSON format-->
-                    <!-- must include API key, clause with limits amount of data returned, and anything else you want  -->
-                <!-- extract price in USD/t_oz -->
-                    <!-- store in global variable -->
     </head>
     <body>
         <div id="upperDiv">
@@ -31,10 +24,14 @@
                     <option>Ounce (oz)</option>
                 </select>
                 <!-- TODO: make this a real callback function -->
-                <button onclick="callback(weight.value, unit.value)">Convert</button>
+                <button onclick="callback(weight.value, unit.value)">Convert</button> <!-- add gold.value -->
+                <p id="priceMessage"></p>
             </span>
         </div> <!-- upperDiv -->
         <div id="lowerDiv"></div>
+        <!-- scripts -->
         <script src="{% static 'gold/script.js' %}"></script>
+        <script src="{% static 'gold/newDiv.js' %}"></script>
+        <script src="{% static 'gold/queryNASDAQ.js' %}"></script>
     </body>
 </html>
